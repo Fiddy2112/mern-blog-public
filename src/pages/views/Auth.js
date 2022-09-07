@@ -1,16 +1,23 @@
 import React, { useContext } from "react";
 import Login from "../Login/Login";
-import Register from "../Register/Register";
+import Signup from "../Signup/Signup";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
 function Auth({ authRoute }) {
+  const {
+    authState: { isAuthenticated },
+  } = useContext(AuthContext);
   let body;
+
+  if (isAuthenticated) {
+    return <Navigate to="/me/stored-course" />;
+  }
   body = (
     <>
       {authRoute === "login" && <Login />}
-      {authRoute === "register" && <Register />}
+      {authRoute === "signup" && <Signup />}
     </>
   );
 

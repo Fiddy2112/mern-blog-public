@@ -1,21 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./Register.css";
+import { AuthContext } from "../../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
 
-function Register() {
-  const [name, setName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [password, setPassword] = useState("");
+import "./Signup.css";
+
+function Signup() {
+  // context
+  const { SignupUser } = useContext(AuthContext);
+
+  //alert
+  const toastEmiter = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
+
+  // local state
+  const [signupForm, setSignupForm] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const { username, password, confirmPassword } = signupForm;
+
+  const onChange = (e) => {
+    setSignupForm({
+      ...signupForm,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    console.log({
-      name,
-      password,
-      confirmPassword,
-    });
+    // console.log(signupForm);
     //signup the user
+    // logic signup
+    if (password !== confirmPassword) {
+      toast.error("Incorrect password, please try again 😓😓", toastEmiter);
+      return;
+    }
+    try {
+      const signupData = await SignupUser(signupForm);
+      if (signupData.success) {
+      } else {
+        toast.error(signupData.message, toastEmiter);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Container>
@@ -39,8 +78,10 @@ function Register() {
               <Form.Control
                 type="text"
                 placeholder="Your name..."
-                onChange={(e) => setName(e.target.value)}
-                value={name}
+                name="username"
+                value={username}
+                onChange={onChange}
+                required
               />
             </Form.Group>
 
@@ -49,18 +90,21 @@ function Register() {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
                 value={password}
+                onChange={onChange}
+                required
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Confirm Password</Form.Label>
+              <Form.Label>Confirm </Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Confirm Password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                name="confirmPassword"
                 value={confirmPassword}
+                onChange={onChange}
               />
             </Form.Group>
 
@@ -79,8 +123,9 @@ function Register() {
           </Form>
         </Col>
       </Row>
+      <ToastContainer />
     </Container>
   );
 }
 
-export default Register;
+export default Signup;
