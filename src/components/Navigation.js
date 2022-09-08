@@ -12,8 +12,6 @@ function Navigation() {
     LogoutUser,
   } = useContext(AuthContext);
 
-  // console.log(user);
-
   const logout = () => {
     LogoutUser();
   };
@@ -74,7 +72,9 @@ function Navigation() {
                 Create course
               </NavDropdown.Item>
               <NavDropdown.Divider></NavDropdown.Divider>
-              <NavDropdown.Item href="#action/3.2">My Courses</NavDropdown.Item>
+              <NavDropdown.Item href="me/stored-course">
+                My Courses
+              </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">
                 My News Pages
               </NavDropdown.Item>

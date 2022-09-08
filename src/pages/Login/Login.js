@@ -45,7 +45,7 @@ function Login() {
     //login logic
     try {
       const loginData = await LoginUser(loginForm);
-      console.log(loginData);
+      // console.log(loginData);
       if (loginData.success) {
         // navigate("/me/stored-course");
       } else {

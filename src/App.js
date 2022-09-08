@@ -8,6 +8,7 @@ import NotFound from "./pages/Error/NotFound";
 import StoredCourse from "./pages/Me/StoredCourse/StoredCourse";
 import { AuthContext } from "./contexts/AuthContext";
 import Auth from "./pages/views/Auth";
+import CourseContextProvider from "./contexts/CourseContext";
 
 function App() {
   const { authState } = useContext(AuthContext);
