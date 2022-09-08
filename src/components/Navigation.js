@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { LOCAL_STORAGE_TOKEN } from "../contexts/constants";
 import logo from "../assets/logo.png";
 import "./Navigation.css";
+import { AuthContext } from "../contexts/AuthContext";
 
 function Navigation() {
+  // user & logout
+  const {
+    authState: { user },
+    LogoutUser,
+  } = useContext(AuthContext);
+
+  // console.log(user);
+
+  const logout = () => {
+    LogoutUser();
+  };
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -24,7 +35,7 @@ function Navigation() {
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
 
-            <NavDropdown
+            {/* <NavDropdown
               title={
                 <>
                   <img
@@ -42,6 +53,22 @@ function Navigation() {
                 </>
               }
               id="basic-nav-dropdown"
+            > */}
+            <NavDropdown
+              title={
+                <div className="d-flex justify-content-center align-items-center">
+                  {user ? " Hi:" : ""}
+                  <p
+                    style={{
+                      paddingLeft: 10,
+                      marginBottom: 0,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {user?.username}
+                  </p>
+                </div>
+              }
             >
               <NavDropdown.Item href="#action/3.1">
                 Create course
@@ -52,10 +79,7 @@ function Navigation() {
                 My News Pages
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item
-                href="/login"
-                onClick={localStorage.removeItem(LOCAL_STORAGE_TOKEN)}
-              >
+              <NavDropdown.Item href="/login" onClick={logout}>
                 Logout
               </NavDropdown.Item>
             </NavDropdown>

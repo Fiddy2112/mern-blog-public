@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 
 function Login() {
@@ -13,6 +15,17 @@ function Login() {
     username: "",
     password: "",
   });
+
+  //alert
+  const toastEmiter = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
 
   // router useNavigate
   let navigate = useNavigate();
@@ -34,7 +47,9 @@ function Login() {
       const loginData = await LoginUser(loginForm);
       console.log(loginData);
       if (loginData.success) {
-        navigate("/me/stored-course");
+        // navigate("/me/stored-course");
+      } else {
+        toast.error(loginData.message, toastEmiter);
       }
     } catch (err) {
       console.log(err);
@@ -80,7 +95,7 @@ function Login() {
             <div className="py-4">
               <p className="text-center">
                 Don't have an account?
-                <Link className="bg__link" to="/register">
+                <Link className="bg__link" to="/signup">
                   Signup
                 </Link>
               </p>
@@ -95,6 +110,7 @@ function Login() {
           />
         </Col>
       </Row>
+      <ToastContainer />
     </Container>
   );
 }
