@@ -3,7 +3,7 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
 import "./Navigation.css";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/ContextProvider";
 
 function Navigation() {
   // user & logout
@@ -52,8 +52,8 @@ function Navigation() {
               }
               id="basic-nav-dropdown"
             > */}
-            <NavDropdown
-              title={
+            <NavDropdown title="Course">
+              <NavDropdown.Item>
                 <div className="d-flex justify-content-center align-items-center">
                   {user ? " Hi:" : ""}
                   <p
@@ -66,15 +66,9 @@ function Navigation() {
                     {user?.username}
                   </p>
                 </div>
-              }
-            >
-              <NavDropdown.Item href="#action/3.1">
-                Create course
               </NavDropdown.Item>
               <NavDropdown.Divider></NavDropdown.Divider>
-              <NavDropdown.Item href="me/stored-course">
-                My Courses
-              </NavDropdown.Item>
+              <NavDropdown.Item href="/stored">My Courses</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">
                 My News Pages
               </NavDropdown.Item>

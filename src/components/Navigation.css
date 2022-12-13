@@ -8,3 +8,10 @@
 .user-avatar:hover {
   border: none;
 }
+
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute;
+    left: -20px;
+  }
+}

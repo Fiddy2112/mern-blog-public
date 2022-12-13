@@ -6,9 +6,9 @@ import Navigation from "./components/Navigation";
 import Home from "./pages/Home/Home";
 import NotFound from "./pages/Error/NotFound";
 import StoredCourse from "./pages/Me/StoredCourse/StoredCourse";
-import { AuthContext } from "./contexts/AuthContext";
+import { AuthContext } from "./contexts/ContextProvider";
 import Auth from "./pages/views/Auth";
-import CourseContextProvider from "./contexts/CourseContext";
+import ShowCourse from "./pages/ShowCourse/ShowCourse";
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -20,20 +20,15 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            isAuthenticated ? <Home /> : <Navigate to="/login" replace />
-          }
+          element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
         />
+        <Route path="/courses/learn/:id" element={<ShowCourse />} />
         <Route path="/login" element={<Auth authRoute="login" />} />
         <Route path="/signup" element={<Auth authRoute="signup" />} />
         <Route
-          path="/me/stored-course"
+          path="/stored"
           element={
-            isAuthenticated ? (
-              <StoredCourse />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            isAuthenticated ? <StoredCourse /> : <Navigate to="/login" />
           }
         />
 

@@ -1,0 +1,12 @@
+.icon {
+  background-color: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  color: green;
+}
+
+.icon:hover {
+  color: white;
+  background-color: green;
+  border-color: transparent;
+}

@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { apiURL } from "../../contexts/constants";
-import axios from "axios";
-import { Badge, Button, Card } from "react-bootstrap";
+import React, { useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { Badge, Button, Card, Spinner } from "react-bootstrap";
+import { CourseContext } from "../../contexts/ContextProvider";
 
 function Home() {
-  const [courses, setCourses] = useState([]);
+  // Course Context
+  const { courseState, getCourse } = useContext(CourseContext);
+  const { courses, coursesLoading } = courseState;
+  // console.log(courses);
 
-  const getCourse = async () => {
-    try {
-      const response = await axios.get(`${apiURL}/courses`);
-      console.log(response);
-      if (response.data.success) {
-        setCourses(response.data.courses);
-      } else {
-        setCourses([]);
-      }
-    } catch (err) {
-      return err.response.data
-        ? err.response.data
-        : { success: false, message: "Server error!" };
-    }
-  };
   useEffect(() => {
-    getCourse();
+    if (
+      coursesLoading ? (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      ) : (
+        ""
+      )
+    )
+      getCourse();
   }, []);
   return (
     <>
@@ -32,12 +29,13 @@ function Home() {
             It looks like you don't have a course at all. Do you want create a
             Course?
           </h2>
-          <Button href="#">Let's go</Button>
+          <Button href="/me/stored-course">Let's go</Button>
         </div>
       ) : (
         <div className="d-flex mt-4 ">
           {courses.map((course) => (
             <Card
+              key={course._id}
               style={{
                 width: "18rem",
                 marginLeft: "10px",
@@ -46,7 +44,7 @@ function Home() {
             >
               <Card.Img variant="top" src={course.image} />
               <Badge
-                style={{ borderRadius: "none" }}
+                style={{ borderRadius: "0px" }}
                 bg={
                   course.status === "LEARNED"
                     ? "success"
@@ -58,10 +56,16 @@ function Home() {
                 {course.status}
               </Badge>
               <Card.Body>
-                <Card.Title>{course.name}</Card.Title>
+                <Card.Title style={{ textOverflow: "ellipsis" }}>
+                  {course.name}
+                </Card.Title>
                 <Card.Text>{course.description}</Card.Text>
 
-                <Button style={{ width: "100%" }} variant="outline-primary">
+                <Button
+                  href={`courses/learn/${course._id}`}
+                  style={{ width: "100%" }}
+                  variant="outline-primary"
+                >
                   Learn
                 </Button>
               </Card.Body>

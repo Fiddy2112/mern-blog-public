@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/ContextProvider";
 import { ToastContainer, toast } from "react-toastify";
 
 import "./Signup.css";

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Login from "../Login/Login";
 import Signup from "../Signup/Signup";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/ContextProvider";
 import { Navigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
@@ -12,7 +12,7 @@ function Auth({ authRoute }) {
   let body;
 
   if (isAuthenticated) {
-    return <Navigate to="/me/stored-course" />;
+    return <Navigate to="/stored" />;
   }
   body = (
     <>
